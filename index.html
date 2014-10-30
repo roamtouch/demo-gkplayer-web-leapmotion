@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <style>
+			body { width:960px; margin: 10px auto; font:normal 14px/20px 'Georgia', serif; }
+			.center { text-align: center; }
+		</style>
+		<title>GK Player - A Music Player App by GestureKit</title>
+        <meta name="description" content="Welcome to the revolutionary world of GestureKit (GK) where buttons are not needed! everything can be managed with a simple gesture with the fingers.">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimal-ui">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+
+        <link rel="icon" href="src/favicon.ico">
+
+        <link href="src/player.css" rel="stylesheet">
+        <link href="src/gesturekit.helper.min.css" rel="stylesheet">
+		
+		<div id='container'>
+		</div>
+		<script src="http://js.leapmotion.com/leap-0.6.3.js"></script>
+		<script src='js/lib/d3.v3.min.js'></script>
+		<script src='js/draw.js'></script>
+
+    </head>
+    <body>
+        <div id="background"></div>
+        <section class="gk-player">
+            <h1 class="gk-player-title"></h1>
+            <h2 class="gk-player-album"></h2>
+            <div class="gk-player-time"></div>
+            <div class="gk-player-volume-container">
+                <input class="gk-player-volume" type="range" value="25" value="0" data-skin="tron" data-width="200" data-fgColor="#AAAAAA" data-bgColor="#FFFFFF" data-displayInput="false">
+            </div>
+        </section>
+
+        <script src="src/gesturekit.js"></script>
+        <script src="src/gesturekit.helper.min.js"></script>
+
+        <script src="src/player.js"></script>
+
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" ></script>
+        <script src="http://anthonyterrien.com/js/jquery.knob.js"></script>
+
+        <script>
+            window.onload = function () {
+                var player = new Player({
+                    'volume': 25,
+                    'playlist': [{
+                        'title': 'Ilumine',
+                        'artist': 'Efflugence',
+                        'album': 'Ilumine EP',
+                        'poster': 'https://github.com/RoamTouch/demo-gkplayer-web/raw/gh-pages/tracks/track01.jpg',
+                        'src': 'https://github.com/RoamTouch/demo-gkplayer-web/raw/gh-pages/tracks/track01.mp3'
+                    },
+                    {
+                        'title': 'The One',
+                        'artist': 'Marsbeing ft Deniz Reno',
+                        'album': 'FutureGarage',
+                        'poster': 'https://github.com/RoamTouch/demo-gkplayer-web/raw/gh-pages/tracks/track02.jpg',
+                        'src': 'https://github.com/RoamTouch/demo-gkplayer-web/raw/gh-pages/tracks/track02.mp3'
+                    }]
+                });
+
+                $(function() {
+                    $(".gk-player-volume, .knob").knob({
+                        'change': function (value) {
+                            player.volume(value);
+                        }
+                    });
+                });
+
+                gesturekit
+                    .on('PLAY', function () {
+                        player.play();
+                    })
+                    .on('PAUSE', function () {
+                        player.pause();
+                    })
+                    .on('STOP', function () {
+                        player.pause();
+                    })
+                    .on('FORWARD', function () {
+                        player.next();
+                    })
+                    .on('BACKWARD', function () {
+                        player.prev();
+                    });
+
+                gesturekit.init({
+                    'gid': '174af319-0a10-4fd8-934e-d1fac7973566'
+                });
+
+                gesturekit.helper();
+            };
+        </script>
+    </body>
+</html>
